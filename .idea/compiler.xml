@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Sango-Server" />
+        <module name="Sango-User" />
         <module name="Sango-Common" />
       </profile>
     </annotationProcessing>
