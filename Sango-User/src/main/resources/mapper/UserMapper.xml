@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fantasy.sangoUser.mapper.UserMapper">
     <sql id="Basic_Column">
-        Account,Password,PlayerId
+        Account,Password,_id,Nickname
     </sql>
     <select id="selectUserByAccount" resultType="com.fantasy.sangoUser.entity.User">
         select <include refid="Basic_Column"/>
-        from FantasyOfSango_Player.dbo.UserInfos
+        from FantasyOfSango.UserInfos
         where Account=#{Account,jdbcType=VARCHAR}
     </select>
 
     <insert id="insertUser">
-        insert into FantasyOfSango_Player.dbo.UserInfos(Account,Password,PlayerId)
-        values (#{Account},#{Password},#{PlayerId})
+        insert into FantasyOfSango.UserInfos(Account,Password,_id,Nickname)
+        values (#{Account},#{Password},#{_id},#{Nickname})
     </insert>
-
 </mapper>

@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class User {
     private String Account;
     private String Password;
-    private int PlayerId;
+    private String _id;
+    private String Nickname;
 }

@@ -15,11 +15,11 @@ public class UserController {
     @Resource
     private UserService userService;
     @PostMapping("/login")
-    public CommonResult<Integer> login(@RequestBody LoginDto loginDto) throws BaseException {
-        return new CommonResult<Integer>().success().data(userService.login(loginDto.getAccount(), loginDto.getPassword()));
+    public CommonResult<String> login(@RequestBody LoginDto loginDto) throws BaseException {
+        return new CommonResult<String>().success().data(userService.login(loginDto.getAccount(), loginDto.getPassword()));
     }
     @PostMapping("/register")
-    public CommonResult<Integer> register(@RequestBody RegisterDto registerDto) throws BaseException {
-        return new CommonResult<Integer>().success().data(userService.register(registerDto));
+    public CommonResult<String> register(@RequestBody RegisterDto registerDto) throws BaseException {
+        return new CommonResult<String>().success().data(userService.register(registerDto));
     }
 }

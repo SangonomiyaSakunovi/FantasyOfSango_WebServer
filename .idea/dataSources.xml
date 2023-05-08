@@ -15,11 +15,18 @@
       <jdbc-url>jdbc:sqlserver://43.138.74.153:1433;encrypt=true;trustServerCertificate=true</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="@43.138.74.153 [2]" uuid="06e6f28c-c2a4-4956-9e74-1dd6ce8c10dd">
+    <data-source source="LOCAL" name="@43.138.74.153 [3]" uuid="a4827061-6b0b-4892-a6d2-fe14651eb66b">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://43.138.74.153:3306</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="admin@43.138.74.153" uuid="570f903a-28e2-4f08-8d1c-57e5b1c7a2ce">
+      <driver-ref>mongo</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
+      <jdbc-url>mongodb://43.138.74.153:27017/admin</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
