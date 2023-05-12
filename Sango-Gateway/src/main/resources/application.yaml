@@ -5,23 +5,22 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:2022/eureka
+      defaultZone: http://127.0.0.1:2022/eureka
 server:
-  port: 2024
+  port: 2020
 spring:
   application:
     name: Sango-Gateway
   cloud:
     gateway:
       routes:
-        - id: user-service-route  #路由id
-          #uri: http://127.0.0.1:9091 #代理的服务地址
-          uri: lb://user-service #lb 从Eureka中获取具体的服务
+        - id: Sango-User  #路由id
+          uri: lb://Sango-User #lb 从Eureka中获取具体的服务
           predicates: #路由断言：可以匹配映射路径
             - Path=/user/**
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://43.138.74.153:3306
+    url: jdbc:mysql://127.0.0.1:3306
     username: root
     password: Shx20020810
     hikari:
