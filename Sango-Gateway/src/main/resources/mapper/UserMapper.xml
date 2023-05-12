@@ -9,9 +9,4 @@
         from FantasyOfSango.UserInfos
         where Account=#{Account,jdbcType=VARCHAR}
     </select>
-
-    <insert id="insertUser">
-        insert into FantasyOfSango.UserInfos(Account,Password,_id,Nickname)
-        values (#{Account},#{Password},#{_id},#{Nickname})
-    </insert>
 </mapper>

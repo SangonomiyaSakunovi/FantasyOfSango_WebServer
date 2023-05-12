@@ -1,6 +1,6 @@
 package com.fantasy.sangoUser.mapper;
 
-import com.fantasy.sangoUser.entity.User;
+import com.fantasy.sangoCommon.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {

@@ -1,13 +1,17 @@
 spring:
+  application:
+    name: Sango-User
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306
+    url: jdbc:mysql://43.138.74.153:3306
     username: root
     password: Shx20020810
     hikari:
       max-lifetime: 120000
-    profiles:
-      active: dev
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:2022/eureka
 server:
   port: 2023
 mybatis:

@@ -1,4 +1,4 @@
-package com.fantasy.sangoUser.entity;
+package com.fantasy.sangoCommon.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

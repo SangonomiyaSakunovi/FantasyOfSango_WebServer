@@ -1,7 +1,7 @@
 package com.fantasy.sangoUser.service.impl;
 
 import com.fantasy.sangoUser.dto.RegisterDto;
-import com.fantasy.sangoUser.entity.User;
+import com.fantasy.sangoCommon.entity.User;
 import com.fantasy.sangoUser.exception.BaseException;
 import com.fantasy.sangoUser.exception.BaseExceptionEnum;
 import com.fantasy.sangoUser.mapper.UserMapper;
