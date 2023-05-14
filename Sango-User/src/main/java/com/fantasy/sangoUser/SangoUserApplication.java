@@ -8,9 +8,9 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @SpringBootApplication
 @MapperScan("com.fantasy.sangoUser.mapper")
 @EnableEurekaClient
-public class SangoServerApplication {
+public class SangoUserApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SangoServerApplication.class, args);
+        SpringApplication.run(SangoUserApplication.class, args);
     }
 
 }

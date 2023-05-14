@@ -8,6 +8,7 @@ import com.fantasy.sangoUser.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -15,8 +16,8 @@ public class UserController {
     @Resource
     private UserService userService;
     @PostMapping("/login")
-    public CommonResult<String> login(@RequestBody LoginDto loginDto) throws BaseException {
-        return new CommonResult<String>().success().data(userService.login(loginDto.getAccount(), loginDto.getPassword()));
+    public CommonResult<Map<String,Object>> login(@RequestBody LoginDto loginDto) throws BaseException {
+        return new CommonResult<Map<String,Object>>().success().data(userService.login(loginDto.getAccount(), loginDto.getPassword()));
     }
     @PostMapping("/register")
     public CommonResult<String> register(@RequestBody RegisterDto registerDto) throws BaseException {
