@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 public class JwtInterceptor implements HandlerInterceptor {
     @Resource
     private UserMapper userMapper;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws BaseException {
         // 从 http 请求头中取出 token
