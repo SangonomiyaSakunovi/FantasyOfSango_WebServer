@@ -17,10 +17,6 @@ public class CommonResultSerializer extends JsonSerializer<CommonResult<?>> {
         jsonGenerator.writeFieldName("message");
         jsonGenerator.writeString(commonResult.getMessage());
         jsonGenerator.writeObjectField("data", commonResult.getData());
-
-        for (Object k : commonResult.getResultMap().keySet()){
-            jsonGenerator.writeObjectField((String) k, commonResult.getResultMap().get(k));
-        }
         jsonGenerator.writeEndObject();
     }
 }

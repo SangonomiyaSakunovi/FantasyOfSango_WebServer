@@ -1,17 +1,10 @@
 package com.fantasy.sangoCommon.entity;
 
 import org.springframework.http.HttpStatus;
-
-import java.util.HashMap;
-import java.util.Map;
 public class CommonResult<T> {
-    public static final String CODE = "code";
-    public static final String MESSAGE = "message";
-    public static final String DATA = "data";
     private int code;
     private String message;
     private T data;
-    private Map<String, Object> resultMap = new HashMap<>();
 
     public CommonResult<T> code(HttpStatus status){
         this.code=status.value();
@@ -43,23 +36,6 @@ public class CommonResult<T> {
         this.message(HttpStatus.OK.getReasonPhrase());
         return this;
     }
-    public CommonResult<T> put(String key,Object value){
-        resultMap.put(key,value);
-        return this;
-    }
-
-    public Object get(String key) {
-        if (CODE.equals(key)) {
-            return code;
-        }
-        if (MESSAGE.equals(key)) {
-            return message;
-        }
-        if (DATA.equals(key)) {
-            return data;
-        }
-        return resultMap.get(key);
-    }
     public int getCode() {
         return code;
     }
@@ -84,11 +60,4 @@ public class CommonResult<T> {
         this.data = data;
     }
 
-    public Map<String, Object> getResultMap() {
-        return resultMap;
-    }
-
-    public void setResultMap(Map<String, Object> resultMap) {
-        this.resultMap = resultMap;
-    }
 }
