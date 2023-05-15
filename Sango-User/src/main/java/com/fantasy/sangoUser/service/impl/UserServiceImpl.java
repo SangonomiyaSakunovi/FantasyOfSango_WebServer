@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService {
                     String token = cookie.getValue();
                     try {
                         JWT.decode(token).getAudience().get(0);
+                        return null;
                     } catch (JWTDecodeException j) {
                         throw new BaseException(BaseExceptionEnum.INVALID_JWT);
                     }
