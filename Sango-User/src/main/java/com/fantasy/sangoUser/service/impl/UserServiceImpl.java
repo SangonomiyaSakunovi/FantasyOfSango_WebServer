@@ -1,5 +1,7 @@
 package com.fantasy.sangoUser.service.impl;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.fantasy.sangoUser.dto.RegisterDto;
 import com.fantasy.sangoCommon.entity.User;
 import com.fantasy.sangoUser.exception.BaseException;
@@ -15,7 +17,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         if (!newPassword.equals(user.getPassword())) {
             throw new BaseException(BaseExceptionEnum.LOGIN_ERROR);
         }
-        Cookie cookie = new Cookie("account", username);
+        Cookie cookie = new Cookie("token", TokenUtil.getToken(user));
         // 单位：秒
         cookie.setMaxAge(1800);
         cookie.setPath("/");
@@ -71,8 +72,13 @@ public class UserServiceImpl implements UserService {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie != null && "account".equals(URLDecoder.decode(cookie.getName(), StandardCharsets.UTF_8))) {
-                    return null;
+                if (cookie != null && "token".equals(URLDecoder.decode(cookie.getName(), StandardCharsets.UTF_8))) {
+                    String token = cookie.getValue();
+                    try {
+                        JWT.decode(token).getAudience().get(0);
+                    } catch (JWTDecodeException j) {
+                        throw new BaseException(BaseExceptionEnum.INVALID_JWT);
+                    }
                 }
             }
         }
