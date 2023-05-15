@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,8 +23,8 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
     @Override
-    public Map<String,Object> login(String username, String password) throws BaseException{
-        Map<String,Object> resultMap = new HashMap<>();
+    public Map<String,Object> login(String username, String password, HttpServletResponse response) throws BaseException{
+        Map<String,Object> resultMap = new HashMap<>(2);
         User user = userMapper.selectUserByAccount(username);
         if (user == null) {
             throw new BaseException(BaseExceptionEnum.LOGIN_ERROR);
@@ -32,6 +34,11 @@ public class UserServiceImpl implements UserService {
         if (!newPassword.equals(user.getPassword())) {
             throw new BaseException(BaseExceptionEnum.LOGIN_ERROR);
         }
+        Cookie cookie = new Cookie("account", username);
+        // 单位：秒
+        cookie.setMaxAge(1800);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         resultMap.put("account",user.getAccount());
         resultMap.put("token", TokenUtil.getToken(user));
         return resultMap;
