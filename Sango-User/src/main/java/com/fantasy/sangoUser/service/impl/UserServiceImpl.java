@@ -13,7 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,5 +63,19 @@ public class UserServiceImpl implements UserService {
         } else {
             return user.getAccount();
         }
+    }
+
+    @Override
+    public Void isLogin(HttpServletRequest request) throws BaseException {
+        // 判断cookie是否有username，如果有代表登陆过
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie != null && "account".equals(URLDecoder.decode(cookie.getName(), StandardCharsets.UTF_8))) {
+                    return null;
+                }
+            }
+        }
+        throw new BaseException(BaseExceptionEnum.NOT_LOGIN);
     }
 }
