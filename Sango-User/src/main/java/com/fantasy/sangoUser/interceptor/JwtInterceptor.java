@@ -11,6 +11,7 @@ import com.fantasy.sangoUser.annotation.PassToken;
 import com.fantasy.sangoUser.exception.BaseException;
 import com.fantasy.sangoUser.exception.BaseExceptionEnum;
 import com.fantasy.sangoUser.mapper.UserMapper;
+import com.fantasy.sangoUser.service.UserService;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -19,10 +20,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
+import static com.fantasy.sangoUser.service.UserService.tokenMap;
+
 public class JwtInterceptor implements HandlerInterceptor {
     @Resource
     private UserMapper userMapper;
-
+    @Resource
+    private UserService userService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws BaseException {
         // 从 http 请求头中取出 token
@@ -65,6 +69,9 @@ public class JwtInterceptor implements HandlerInterceptor {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
                     throw new BaseException(BaseExceptionEnum.INVALID_JWT);
+                }
+                if (!tokenMap.containsKey(userId)) {
+                    return false;
                 }
                 return true;
             }

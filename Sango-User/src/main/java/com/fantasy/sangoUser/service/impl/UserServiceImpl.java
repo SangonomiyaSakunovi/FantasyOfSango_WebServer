@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.fantasy.sangoUser.dto.RegisterDto;
 import com.fantasy.sangoCommon.entity.User;
+import com.fantasy.sangoUser.dto.UserDto;
 import com.fantasy.sangoUser.exception.BaseException;
 import com.fantasy.sangoUser.exception.BaseExceptionEnum;
 import com.fantasy.sangoUser.mapper.UserMapper;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userMapper;
+//    public static HashMap<String,String> tokenMap = new HashMap<>(16);
     @Override
     public Map<String,Object> login(String username, String password, HttpServletResponse response) throws BaseException{
         Map<String,Object> resultMap = new HashMap<>(2);
@@ -39,13 +41,15 @@ public class UserServiceImpl implements UserService {
         if (!newPassword.equals(user.getPassword())) {
             throw new BaseException(BaseExceptionEnum.LOGIN_ERROR);
         }
-        Cookie cookie = new Cookie("token", TokenUtil.getToken(user));
+        String token = TokenUtil.getToken(user);
+        tokenMap.put(username,token);
+        Cookie cookie = new Cookie("token", token);
         // 单位：秒
         cookie.setMaxAge(1800);
         cookie.setPath("/");
         response.addCookie(cookie);
         resultMap.put("account",user.getAccount());
-        resultMap.put("token", TokenUtil.getToken(user));
+        resultMap.put("token", token);
         return resultMap;
     }
     @Override
@@ -67,7 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Void isLogin(HttpServletRequest request) throws BaseException {
+    public UserDto isLogin(HttpServletRequest request) throws BaseException {
         // 判断cookie是否有username，如果有代表登陆过
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -75,7 +79,39 @@ public class UserServiceImpl implements UserService {
                 if (cookie != null && "token".equals(URLDecoder.decode(cookie.getName(), StandardCharsets.UTF_8))) {
                     String token = cookie.getValue();
                     try {
-                        JWT.decode(token).getAudience().get(0);
+                        String userId = JWT.decode(token).getAudience().get(0);
+                        if (!tokenMap.containsKey(userId)) {
+                            throw new BaseException(BaseExceptionEnum.NOT_LOGIN);
+                        }
+                        User user = userMapper.selectUserByAccount(userId);
+                        if (user == null) {
+                            throw new BaseException(BaseExceptionEnum.NOT_LOGIN);
+                        }
+                        return new UserDto(user.getAccount(),user.getNickname());
+                    } catch (JWTDecodeException j) {
+                        throw new BaseException(BaseExceptionEnum.INVALID_JWT);
+                    }
+                }
+            }
+        }
+        throw new BaseException(BaseExceptionEnum.NOT_LOGIN);
+    }
+
+    @Override
+    public Void logout(HttpServletRequest request,HttpServletResponse response) throws BaseException {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie != null && "token".equals(URLDecoder.decode(cookie.getName(), StandardCharsets.UTF_8))) {
+                    String token = cookie.getValue();
+                    try {
+                        String userId = JWT.decode(token).getAudience().get(0);
+                        User user = userMapper.selectUserByAccount(userId);
+                        Cookie newCookie = new Cookie("token", TokenUtil.getToken(user));
+                        newCookie.setMaxAge(0);
+                        newCookie.setPath("/");
+                        response.addCookie(newCookie);
+                        tokenMap.remove(userId);
                         return null;
                     } catch (JWTDecodeException j) {
                         throw new BaseException(BaseExceptionEnum.INVALID_JWT);

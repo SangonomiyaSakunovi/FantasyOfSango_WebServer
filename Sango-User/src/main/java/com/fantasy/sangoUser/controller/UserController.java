@@ -3,6 +3,7 @@ package com.fantasy.sangoUser.controller;
 import com.fantasy.sangoCommon.entity.CommonResult;
 import com.fantasy.sangoUser.dto.LoginDto;
 import com.fantasy.sangoUser.dto.RegisterDto;
+import com.fantasy.sangoUser.dto.UserDto;
 import com.fantasy.sangoUser.exception.BaseException;
 import com.fantasy.sangoUser.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,11 @@ public class UserController {
         return new CommonResult<String>().success().data(userService.register(registerDto));
     }
     @GetMapping("/isLogin")
-    public CommonResult<Void> isLogin(HttpServletRequest request) throws BaseException {
-        return new CommonResult<Void>().success().data(userService.isLogin(request));
+    public CommonResult<UserDto> isLogin(HttpServletRequest request) throws BaseException {
+        return new CommonResult<UserDto>().success().data(userService.isLogin(request));
+    }
+    @PostMapping("/logout")
+    public CommonResult<Void> logout(HttpServletRequest request,HttpServletResponse response) throws BaseException {
+        return new CommonResult<Void>().success().data(userService.logout(request,response));
     }
 }
