@@ -12,7 +12,6 @@
         <module>Sango-Common</module>
         <module>Sango-User</module>
         <module>Sango-Gateway</module>
-        <module>Sango-Eureka</module>
     </modules>
     <dependencies>
 

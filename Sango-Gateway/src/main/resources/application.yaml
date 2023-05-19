@@ -1,28 +1,24 @@
-eureka:
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://127.0.0.1:2022/eureka
 server:
   port: 2020
 spring:
+  nacos:
+    discovery:
+      server-addr: 127.0.0.1:8848
+      enabled: true
+      service-name: Sango-Gateway
   application:
     name: Sango-Gateway
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true #开启从注册中心动态创建路由的功能，利用微服务名进行路由
       routes:
-        - id: Sango-User  #路由id
-          uri: lb://Sango-User #lb 从Eureka中获取具体的服务
+        - id: Sango-User-user  #路由id
+          uri: lb://Sango-User #lb 从Nacos中获取具体的服务
           predicates: #路由断言：可以匹配映射路径
             - Path=/user/**
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306
-    username: root
-    password: Shx20020810
-    hikari:
-      max-lifetime: 120000
+        - id: Sango-User-article  #路由id
+          uri: lb://Sango-User #lb 从Nacos中获取具体的服务
+          predicates: #路由断言：可以匹配映射路径
+            - Path=/article/**

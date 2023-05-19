@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fantasy.sangoUser.mapper.ArticleMapper">
+    <sql id="Basic_Column">
+        id,type,title,date,content,author
+    </sql>
+    <select id="selectArticleById" resultType="com.fantasy.sangoUser.entity.Article">
+    select <include refid="Basic_Column"/>
+        from FantasyOfSango.ArticleInfos
+        where id = #{id}
+    </select>
+
+    <select id="selectArticleByType" resultType="com.fantasy.sangoUser.entity.Article">
+        select <include refid="Basic_Column"/>
+        from FantasyOfSango.ArticleInfos
+        where type = #{type}
+    </select>
+
+    <insert id="insertArticle">
+    insert into FantasyOfSango.ArticleInfos(type,title,date,content,author)
+        values (#{type},#{title},#{date},#{content},#{author})
+    </insert>
+</mapper>
