@@ -2,12 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.fantasy</groupId>
     <artifactId>Sango-User</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Sango-User</name>
     <description>Sango-User</description>
     <packaging>jar</packaging>
+    <parent>
+        <artifactId>FantasyOfSango</artifactId>
+        <groupId>com.fantasy</groupId>
+        <version>1.0.0</version>
+    </parent>
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,7 +21,6 @@
          <maven.compiler.source>11</maven.compiler.source>  
          <maven.compiler.target>11</maven.compiler.target> 
 		 <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion>
-
     </properties>
     <dependencies>
         <dependency>
