@@ -13,11 +13,18 @@
     <select id="selectArticleByType" resultType="com.fantasy.sangoUser.entity.Article">
         select <include refid="Basic_Column"/>
         from FantasyOfSango.ArticleInfos
-        where type = #{type}
+        where type = #{type, jdbcType=INTEGER} limit 5
     </select>
 
     <insert id="insertArticle">
     insert into FantasyOfSango.ArticleInfos(type,title,date,content,author)
         values (#{type},#{title},#{date},#{content},#{author})
     </insert>
+
+    <select id="selectNewestArticle" resultType="com.fantasy.sangoUser.entity.Article">
+        select <include refid="Basic_Column"/>
+        from FantasyOfSango.ArticleInfos
+        order by date desc
+        limit #{limit}
+    </select>
 </mapper>
